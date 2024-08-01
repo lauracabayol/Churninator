@@ -173,13 +173,13 @@ class data_cleaner():
         ax.set_xlabel('Feedback (0: Negative, 1: Neutral, 2: Positive)')
         ax.set_ylabel('Frequency')
 
-        ax.set_xticks(np.arange(1,4,1))
+        ax.set_xticks(np.arange(0,3,1))
         ax.set_xticklabels(mapping.keys(), rotation='vertical', fontsize=18)
 
         # Modify legend
         handles, labels = plt.gca().get_legend_handles_labels()
         labels = ['Exited', 'Not Exited']
-        ax.legend(handles, labels, title='Exit Status')
+        ax.legend(handles, labels)
 
         # Show plot
         plt.show()
