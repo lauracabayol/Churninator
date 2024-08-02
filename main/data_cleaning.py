@@ -10,6 +10,10 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 nltk.download('vader_lexicon')
 
+from transformers import BertTokenizer, BertForSequenceClassification
+from transformers import pipeline
+
+
 class data_cleaner():
     """
     A class for cleaning customer data and performing churn prediction analysis.
@@ -31,6 +35,12 @@ class data_cleaner():
         """
         self.verbose = verbose
 
+        # Load pre-trained model and tokenizer
+        model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+        tokenizer = BertTokenizer.from_pretrained(model_name)
+        model_bert = BertForSequenceClassification.from_pretrained(model_name).to('cpu')
+        self.sentiment_pipeline = pipeline("sentiment-analysis", model=model_bert, tokenizer=tokenizer)
+
         # Load data
         if self.verbose:
             print("Loading data from:", path_to_data)
@@ -51,9 +61,14 @@ class data_cleaner():
         # Analyze sentiments
         if self.verbose:
             print("Analyzing customer feedback. Classifying feedback into positive, neutral, and negative and encode it into a descreate value")
-        sentiments = [self._analyze_sentiment_vader(feedback) for feedback in self.df.CustomerFeedback]
-        self.df['sentiments'] = sentiments
+            
+        self.df[['sentiments', 'score']] = self.df['CustomerFeedback'].apply(
+            lambda feedback: pd.Series(self._analyze_sentiment_bert(feedback)))
+        
+        #self.df['sentiments'] = sentiments
+        #self.df['sentiments_score'] = score
         self._label_encoding('sentiments')
+        self.df.loc[self.df['CustomerFeedback'] == 'Nothing', ['sentiments', 'encoded_sentiments']] = ['N/A', -99]
 
         # Select non-string columns
         df_non_string = self.df.select_dtypes(exclude=['object'])
@@ -84,32 +99,47 @@ class data_cleaner():
             return le_mapping
 
 
+
     def _analyze_sentiment_vader(self, text):
         """
         Analyzes the sentiment of a given text using VADER. 
-        The thresholds for classifying the sentiment as positive, negative, or neutral are arbitrary 
-        but have been found to work well in practice. Here are the commonly used thresholds:
-
-        - Positive: A compound score greater than or equal to 0.05
-        - Negative: A compound score less than or equal to -0.05
-        - Neutral: A compound score between -0.05 and 0.05 
-
+        The thresholds for classifying the sentiment as super positive, positive, neutral, negative, 
+        or super negative are arbitrary but have been found to work well in practice. Here are the 
+        thresholds used:
+    
+        - Super Positive: A compound score greater than or equal to 0.75
+        - Positive: A compound score between 0.05 and 0.75
+        - Neutral: A compound score between -0.05 and 0.05
+        - Negative: A compound score between -0.75 and -0.05
+        - Super Negative: A compound score less than or equal to -0.75
+    
         Parameters:
         text (str): The text to analyze.
-
+    
         Returns:
-        str: The sentiment classification ('positive', 'negative', or 'neutral').
+        str: The sentiment classification ('super positive', 'positive', 'neutral', 'negative', or 'super negative').
         """
         sia = SentimentIntensityAnalyzer()
         sentiment_score = sia.polarity_scores(text)
         
         # Classify sentiment
-        if sentiment_score['compound'] >= 0.05:
+        if sentiment_score['compound'] >= 0.75:
+            return 'super positive'
+        elif sentiment_score['compound'] >= 0.05:
             return 'positive'
-        elif sentiment_score['compound'] <= -0.05:
+        elif sentiment_score['compound'] > -0.05:
+            return 'neutral'
+        elif sentiment_score['compound'] > -0.75:
             return 'negative'
         else:
-            return 'neutral'       
+            return 'super negative'     
+
+    def _analyze_sentiment_bert(self, text):
+        
+        # Create a sentiment analysis pipeline
+        result = self.sentiment_pipeline(text)
+        return result[0]['label'], result[0]['score']
+
 
     def plot_correlation_matrix(self, columns):
         """
