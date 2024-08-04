@@ -9,13 +9,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-
 import json
-
-import sys
-sys.path.append("../main")
-from network_architecture import ChurnNet
-
+from Churninator.ml_predictor.network_architecture import ChurnNet
 
 def optimize_rf_with_optuna(X, y, n_trials=100):
     """

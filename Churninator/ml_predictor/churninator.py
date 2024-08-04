@@ -23,14 +23,13 @@ from torch.utils.data import DataLoader, TensorDataset
 import torch.nn as nn
 import torch.optim as optim
 
-import sys
-sys.path.append("../utils")
-from optuna_optimizers import optimize_gb_with_optuna, optimize_nn_with_optuna
-from plots import plot_feature_importances_seaborn
+#import sys
+#sys.path.append("../utils")
+from Churninator.utils.optuna_optimizers import optimize_gb_with_optuna, optimize_nn_with_optuna
+from Churninator.utils.plots import plot_feature_importances_seaborn
 
-sys.path.append("./")
-from data_cleaning import data_cleaner
-from network_architecture import ChurnNet
+from Churninator.data_processing.data_cleaning import data_cleaner
+from Churninator.ml_predictor.network_architecture import ChurnNet
 
 torch.manual_seed(0)
 np.random.seed(0)

@@ -24,7 +24,9 @@ setup(
                       'imblearn',
                       'seaborn',
                       'transformers',
-                      'optuna'],
+                      'optuna'
+                      'ipykernel',
+                      'jupytext'],
 
     long_description=read('README.md'),
     classifiers=[
