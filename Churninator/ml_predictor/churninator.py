@@ -1,3 +1,10 @@
+"""
+ChurnNet Module
+===============
+
+This module contains the ChurnNet class for churn prediction.
+"""
+
 import numpy as np
 import pandas as pd
 import random

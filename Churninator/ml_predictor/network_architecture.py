@@ -1,3 +1,10 @@
+"""
+ChurnNet Module
+=======================================
+
+This module contains the class defining the neural network architecture.
+"""
+
 import torch
 import torch.nn as nn
 

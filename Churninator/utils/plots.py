@@ -1,3 +1,10 @@
+"""
+plot_feature_importances_seaborn Module
+=======================================
+
+This module contains a function to plot feature importances using seaborn.
+"""
+
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt

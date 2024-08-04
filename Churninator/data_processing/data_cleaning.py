@@ -1,3 +1,10 @@
+"""
+data_cleaning Module
+====================
+
+This module contains the data_cleaner class for cleaning customer data and performing churn prediction analysis.
+"""
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

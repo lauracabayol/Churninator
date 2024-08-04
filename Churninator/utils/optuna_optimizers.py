@@ -1,3 +1,10 @@
+"""
+optimize_rf_with_optuna, optimize_gb_with_optuna, optimize_nn_with_optuna Modules
+=======================================
+
+This modules contain a functions to optimize the different algorithm options with Optuna.
+"""
+
 import optuna
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
