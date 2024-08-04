@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 import torch
 import json
 import os
+import subprocess
+
 
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
@@ -32,7 +34,7 @@ import torch.optim as optim
 from Churninator.utils.optuna_optimizers import optimize_gb_with_optuna, optimize_nn_with_optuna
 from Churninator.utils.plots import plot_feature_importances_seaborn
 
-from Churninator.data_processing.data_cleaning import data_cleaner
+from Churninator.data_processing.data_cleaning import DataCleaner
 from Churninator.ml_predictor.network_architecture import ChurnNet
 
 torch.manual_seed(0)
@@ -83,6 +85,8 @@ class Churninator:
             undersample (bool): Whether to undersample the training data.
             algorithm (str): Algorithm to use ('GB' for Gradient Boosting, 'NN' for Neural Network).
         """
+        self.root_repo=subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True).stdout.strip()
+
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.verbose = verbose
         self.algorithm = algorithm
@@ -91,9 +95,9 @@ class Churninator:
 
         if preprocess_file:
             print("Preprocessing file, this can take ~5', but it only needs to be done once")
-            DataCleaner = data_cleaner(path_to_data=path_to_file,
+            data_cleaner = DataCleaner(path_to_data=path_to_file,
                                        labels_to_encode=['Gender', 'Country'],
-                                       save_file_path='../data/cleant_data.csv',
+                                       save_file_path=self.root_repo+'/data/clean_data.csv',
                                        verbose=True,
                                        make_plots=False)
         else:
@@ -122,13 +126,13 @@ class Churninator:
                     if verbose:
                         print("Optimizing GB parameters with Optuna")
                     best_params = optimize_gb_with_optuna(self.X_train.values, self.y_train.values.flatten(), n_trials=20)
-                    with open('../data/bestparams_GB.json', 'w') as fp:
+                    with open(self.root_repo+'/data/bestparams_GB.json', 'w') as fp:
                         json.dump(best_params, fp)
                 elif self.algorithm == 'NN':
                     if verbose:
                         print("Optimizing NN parameters with Optuna")
                     best_params = optimize_nn_with_optuna(self._train_nn, n_trials=40)
-                    with open('../data/bestparams_NN.json', 'w') as fp:
+                    with open(self.root_repo+'/data/bestparams_NN.json', 'w') as fp:
                         json.dump(best_params, fp)
                 else:
                     raise AttributeError("Accepted algorithm options are 'GB' and 'NN'")
