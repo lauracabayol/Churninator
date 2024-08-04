@@ -25,7 +25,8 @@ The dataset exhibits a significant class imbalance, which can affect the perform
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/class_distribution.png}
+    \includegraphics[width=0.45\textwidth]{figures/class_distribution.png}
+%    \includegraphics[width=0.9\textwidth]{figures/correlation_matrix.png}
     \caption{Class Distribution of the Dataset}
     \label{fig:class_distribution}
 \end{figure}
@@ -48,12 +49,6 @@ To make use of this data, we perform sentiment analysis to classify the feedback
 \end{itemize}  Once each feedback has been classified into a star rating, we encode these ratings into integer labels. 
 
 Once the data is all preprocessed, with a format that algorithms can read, we can look at the correlation between different variables and the probability of customer churn. The following plot shows the correlation between all features in the dataset and their current status (Exited/not Exited). 
-%\begin{figure}[h!]
-%    \centering
-%    \includegraphics[width=0.9\textwidth]{figures/correlation_matrix.png}
-%    \caption{Correlation Matrix of Features and Exit Probability}
-%    \label{fig:correlation_matrix}
-%\end{figure}
 
 Customer feedback is an important feature in predicting churn. It provides valuable insights into customer satisfaction, which can be indicative of their likelihood to leave the service. However, our analysis revealed some interesting findings. We found instances where customers gave excellent ratings (5 stars) but still left the service. Manual verification confirmed the high ratings, suggesting that despite positive feedback, these customers decided to churn. Conversely, some customers gave poor ratings (1 or 2 stars) but did not leave the service. This indicates that negative feedback does not always lead to churn.
 
@@ -77,8 +72,8 @@ The Gradient Boosting model achieved an AUC of 0.91. The confusion matrix indica
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\textwidth]{figures/roc_curve_gb.png}
-    \includegraphics[width=0.7\textwidth]{figures/confusion_matrix_gb.png}
+    \includegraphics[width=0.45\textwidth]{figures/roc_curve_gb.png}
+    \includegraphics[width=0.45\textwidth]{figures/confusion_matrix_gb.png}
     \caption{ROC Curve for Gradient Boosting}
     \label{fig:roc_curve_gb}
 \end{figure}
@@ -94,8 +89,8 @@ The Neural Network model yielded similar results, though slightly worse:
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/roc_curve_nn.png}
-    \includegraphics[width=0.7\textwidth]{figures/confusion_matrix_nn.png}
+    \includegraphics[width=0.45\textwidth]{figures/roc_curve_nn.png}
+    \includegraphics[width=0.45\textwidth]{figures/confusion_matrix_nn.png}
     \caption{ROC Curve for Neural Network}
     \label{fig:roc_curve_nn}
 \end{figure}
@@ -103,11 +98,15 @@ The Neural Network model yielded similar results, though slightly worse:
 The slightly lower performance of the Neural Network could be attributed to its sensitivity to dummy variables and the need for data normalization. Although normalization was performed, further optimization might improve results.
 
 \subsection{Discussion on Prediction Imperfection}
-Despite the overall strong performance of the models, the churn prediction is not perfect. One contributing factor is the inherent unpredictability of human behavior. As previously discussed, even customers with excellent feedback ratings might leave the service, and those with poor ratings might stay. This unpredictability adds a layer of complexity that machine learning models may not fully capture.
 
-\end{document}
+Despite the overall strong performance of the models, churn prediction is not perfect. One significant challenge is the inherent unpredictability of human behavior. As previously noted, some customers with excellent feedback ratings still chose to leave the service, while others with poor ratings decided to stay. This unpredictability introduces complexity that machine learning models may not fully capture.
 
+Another factor contributing to the imperfection is the class imbalance in the dataset. Although methods like under-sampling, over-sampling, and bias adjustment for the neural network were applied to mitigate this issue, these techniques did not lead to a substantial improvement in the model's performance. This highlights the need for further exploration and optimization in handling imbalanced data.
 
-
+To enhance the accuracy and robustness of churn prediction, several avenues for future work are suggested:
+\begin{itemize}
+    \item \textbf{Ensemble Methods:} Exploring ensemble methods that combine predictions from multiple models could potentially improve performance. Techniques such as bagging, boosting, and stacking can leverage the strengths of different models to achieve better predictive accuracy.
+    \item \textbf{Advanced Imbalance Handling:} Further investigation into advanced techniques for handling imbalanced data is warranted. This could include advanced cost-sensitive learning approaches.
+\end{itemize}
 
 \end{document}
