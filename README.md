@@ -33,12 +33,12 @@ the preprocessing script. This is in the `scripts` directory. This will create a
 it only requires running once.
 ```
 ```Example:
-`python run_data_cleaner.py \
+python run_data_cleaner.py \
     --path_to_data '../data/Assignment_churn_prediction.xlsx' \
     --labels_to_encode Gender Country \
     --save_file_path '../data/clean_data.csv' \
     --verbose True \
-    --make_plots False`
+    --make_plots False
 ```
 
 
