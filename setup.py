@@ -24,7 +24,7 @@ setup(
                       'imblearn',
                       'seaborn',
                       'transformers',
-                      'optuna'
+                      'optuna',
                       'ipykernel',
                       'jupytext'],
 
