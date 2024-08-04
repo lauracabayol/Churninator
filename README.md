@@ -29,7 +29,8 @@ python -m ipykernel install --user --name churninator --display-name churninator
 #### Data:
 ```
 Since the data used to develop the code is not my own, it is not publicly stored in the repo. Please save the data in the `data` direcotry and run
-the preprocessing script. This is in the `scripts` directory.
+the preprocessing script. This is in the `scripts` directory. This will create a new csv data file with the preprocessed data. It might take ~5', but
+it only requires running once.
 ```
 ```Example:
 `python run_data_cleaner.py \
@@ -38,6 +39,7 @@ the preprocessing script. This is in the `scripts` directory.
     --save_file_path '../data/clean_data.csv' \
     --verbose True \
     --make_plots False`
+```
 
 
 #### Tutorials:
