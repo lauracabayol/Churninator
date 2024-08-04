@@ -16,7 +16,7 @@
 \begin{document}
 
 \section{Introduction}
-Churn prediction is a crucial task in customer relationship management, aiming to identify customers who are likely to discontinue using a service. Accurately predicting churn allows companies to take proactive measures to retain these customers, thereby improving overall business performance.
+Churn prediction is a crucial task in customer relationship management, aiming to identify customers who are likely to discontinue using a service. Accurately predicting churn allows companies to take proactive measures to retain these customers, thereby improving overall business performance. In this task, we address bank churn from costumers data using machine-learning techniques. 
 
 \section{Data Description}
 The dataset used for this task consists of both structured and unstructured data. It contains a total of 10,000 samples, where each sample represents a unique customer. The structured data includes features such as the number of products owned by the customer, their account balance, salary, age, gender, and other information. 
@@ -25,7 +25,7 @@ The dataset exhibits a significant class imbalance, which can affect the perform
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{class_distribution.png}
+    \includegraphics[width=0.7\textwidth]{figures/class_distribution.png}
     \caption{Class Distribution of the Dataset}
     \label{fig:class_distribution}
 \end{figure}
@@ -39,29 +39,18 @@ The following categorical features were encoded into integer labels:
     \item[-] \textbf{Country:} Each country was assigned a unique integer label.
 \end{itemize}
  
-Additionally, the dataset contains unstructured data in the form of customer feedback. It is important to note that not all samples have associated customer opinions. For those samples without this entry, we assign a dummy variable of -99.
+Additionally, the dataset contains unstructured data in the form of customer feedback. Not all samples have associated customer opinions. For those samples without this entry, we assign a dummy variable of -99. Customer feedback is a valuable source of unstructured data that can provide insights into customer satisfaction and potential churn risk. The next steps involve handling the unstructured data and integrating it with the structured data for a comprehensive churn prediction model.
 
-
-Customer feedback is a valuable source of unstructured data that can provide insights into customer satisfaction and potential churn risk.
-The next steps involve handling the unstructured data and integrating it with the structured data for a comprehensive churn prediction model.
-To leverage this data, we perform sentiment analysis to classify the feedback as positive or negative employing the BERT (Bidirectional Encoder Representations from Transformers) model, which is known for its state-of-the-art performance in natural language processing tasks. Specifically, we use the \texttt{BertTokenizer} for tokenizing the feedback text and the \texttt{BertForSequenceClassification} module for classifying each opinion into a 'star rating'. The process involves the following steps:
+To make use of this data, we perform sentiment analysis to classify the feedback as positive or negative employing the BERT (Bidirectional Encoder Representations from Transformers) model. Specifically, we use the \texttt{BertTokenizer} for tokenizing the feedback text and the \texttt{BertForSequenceClassification} module for classifying each opinion into a 'star rating'. The process involves the following steps:
 \begin{itemize}
     \item[-] \textbf{Tokenization:} The \texttt{BertTokenizer} is used to convert the text of each feedback into a format suitable for BERT. This involves breaking the text into tokens and mapping each token to an integer index in the BERT vocabulary.
     \item[-] \textbf{Sequence Classification:} The tokenized text is then passed to the \texttt{BertForSequenceClassification} module. This module is fine-tuned to classify each piece of feedback into one of five categories, corresponding to star ratings ranging from 1 star (the poorest score) to 5 stars (the best score).
-\end{itemize}  Once each feedback has been classified into a star rating, we encode these ratings into integer labels. This encoding is similar to the process used for other categorical features:
-\begin{itemize}
-    \item[-] \textbf{1 star:} Encoded as 0
-    \item[-] \textbf{2 stars:} Encoded as 1
-    \item[-] \textbf{3 stars:} Encoded as 2
-    \item[-] \textbf{4 stars:} Encoded as 3
-    \item[-] \textbf{5 stars:} Encoded as 4
-\end{itemize}
+\end{itemize}  Once each feedback has been classified into a star rating, we encode these ratings into integer labels. 
 
-
-Once the data is all pre-processed, with a format that algorithms can read, we can look at the correlation between different variables and the probability of customer churn. The following plot shows the correlation between all features in the dataset and their current status (Exited/not Exited). 
+Once the data is all preprocessed, with a format that algorithms can read, we can look at the correlation between different variables and the probability of customer churn. The following plot shows the correlation between all features in the dataset and their current status (Exited/not Exited). 
 %\begin{figure}[h!]
 %    \centering
-%    \includegraphics[width=0.9\textwidth]{Figures/correlation_matrix.png}
+%    \includegraphics[width=0.9\textwidth]{figures/correlation_matrix.png}
 %    \caption{Correlation Matrix of Features and Exit Probability}
 %    \label{fig:correlation_matrix}
 %\end{figure}
@@ -88,8 +77,8 @@ The Gradient Boosting model achieved an AUC of 0.91. The confusion matrix indica
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\textwidth]{Figures/roc_curve_gb.png}
-    \includegraphics[width=0.7\textwidth]{Figures/confusion_matrix_gb.png}
+    \includegraphics[width=0.5\textwidth]{figures/roc_curve_gb.png}
+    \includegraphics[width=0.7\textwidth]{figures/confusion_matrix_gb.png}
     \caption{ROC Curve for Gradient Boosting}
     \label{fig:roc_curve_gb}
 \end{figure}
@@ -105,8 +94,8 @@ The Neural Network model yielded similar results, though slightly worse:
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{roc_curve_nn.png}
-    \includegraphics[width=0.7\textwidth]{confusion_matrix_nn.png}
+    \includegraphics[width=0.7\textwidth]{figures/roc_curve_nn.png}
+    \includegraphics[width=0.7\textwidth]{figures/confusion_matrix_nn.png}
     \caption{ROC Curve for Neural Network}
     \label{fig:roc_curve_nn}
 \end{figure}
