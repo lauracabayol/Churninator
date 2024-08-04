@@ -1,4 +1,3 @@
-# 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,13 +5,8 @@ import seaborn as sns
 
 from sklearn.preprocessing import LabelEncoder
 
-import nltk
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-nltk.download('vader_lexicon')
-
 from transformers import BertTokenizer, BertForSequenceClassification
 from transformers import pipeline
-
 
 class data_cleaner():
     """
@@ -32,6 +26,7 @@ class data_cleaner():
         labels_to_encode (list): List of labels to encode. Default is ['Gender', 'Country'].
         save_file_path (str): Path to save the cleaned data as a CSV file. Default is None.
         verbose (bool): If True, prints detailed logs. Default is False.
+        make_plots (bool): If True, generates plots. Default is False.
         """
         self.verbose = verbose
 
@@ -49,8 +44,8 @@ class data_cleaner():
 
         # Encode labels
         if self.verbose:
-            print(f"Encoding {labels_to_encode} into descreate numerical values.")
-            print("We asssume that the surname is not important for churn prediction and dismiss the variable")
+            print(f"Encoding {labels_to_encode} into discrete numerical values.")
+            print("We assume that the surname is not important for churn prediction and dismiss the variable")
             
         if labels_to_encode is not None:
             for lab in labels_to_encode:
@@ -60,13 +55,11 @@ class data_cleaner():
 
         # Analyze sentiments
         if self.verbose:
-            print("Analyzing customer feedback. Classifying feedback into positive, neutral, and negative and encode it into a descreate value")
+            print("Analyzing customer feedback. Classifying feedback into positive, neutral, and negative and encode it into a discrete value")
             
         self.df[['sentiments', 'score']] = self.df['CustomerFeedback'].apply(
             lambda feedback: pd.Series(self._analyze_sentiment_bert(feedback)))
         
-        #self.df['sentiments'] = sentiments
-        #self.df['sentiments_score'] = score
         self._label_encoding('sentiments')
         self.df.loc[self.df['CustomerFeedback'] == 'Nothing', ['sentiments', 'encoded_sentiments']] = ['N/A', -99]
 
@@ -91,55 +84,29 @@ class data_cleaner():
 
         Parameters:
         label (str): The label to encode.
+        return_mapping (bool): If True, returns the mapping of the encoded labels. Default is False.
+
+        Returns:
+        dict: Mapping of the encoded labels if return_mapping is True.
         """
         label_encoder = LabelEncoder()
-        self.df[f'encoded_{label}'] = label_encoder.fit_transform(self.df[f'{label}'].values)
+        self.df[f'encoded_{label}'] = label_encoder.fit_transform(self.df[label].values)
         if return_mapping:
             le_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
             return le_mapping
 
-
-
-    def _analyze_sentiment_vader(self, text):
+    def _analyze_sentiment_bert(self, text):
         """
-        Analyzes the sentiment of a given text using VADER. 
-        The thresholds for classifying the sentiment as super positive, positive, neutral, negative, 
-        or super negative are arbitrary but have been found to work well in practice. Here are the 
-        thresholds used:
-    
-        - Super Positive: A compound score greater than or equal to 0.75
-        - Positive: A compound score between 0.05 and 0.75
-        - Neutral: A compound score between -0.05 and 0.05
-        - Negative: A compound score between -0.75 and -0.05
-        - Super Negative: A compound score less than or equal to -0.75
-    
+        Analyzes the sentiment of a given text using a pre-trained BERT model.
+
         Parameters:
         text (str): The text to analyze.
-    
-        Returns:
-        str: The sentiment classification ('super positive', 'positive', 'neutral', 'negative', or 'super negative').
-        """
-        sia = SentimentIntensityAnalyzer()
-        sentiment_score = sia.polarity_scores(text)
-        
-        # Classify sentiment
-        if sentiment_score['compound'] >= 0.75:
-            return 'super positive'
-        elif sentiment_score['compound'] >= 0.05:
-            return 'positive'
-        elif sentiment_score['compound'] > -0.05:
-            return 'neutral'
-        elif sentiment_score['compound'] > -0.75:
-            return 'negative'
-        else:
-            return 'super negative'     
 
-    def _analyze_sentiment_bert(self, text):
-        
-        # Create a sentiment analysis pipeline
+        Returns:
+        tuple: The sentiment label and score.
+        """
         result = self.sentiment_pipeline(text)
         return result[0]['label'], result[0]['score']
-
 
     def plot_correlation_matrix(self, columns):
         """
@@ -193,9 +160,8 @@ class data_cleaner():
         mapping = self._label_encoding('sentiments', return_mapping=True)
         mapping = dict(sorted(mapping.items(), key=lambda item: item[1]))
         
-
         # Create the histogram plot
-        fig, ax = plt.subplots(1,1) 
+        fig, ax = plt.subplots(1, 1) 
         sns.histplot(self.df_non_string, x='encoded_sentiments', hue='Exited', kde=True, palette='coolwarm', multiple='stack')
 
         # Set plot title and labels
@@ -203,7 +169,7 @@ class data_cleaner():
         ax.set_xlabel('Feedback (0: Negative, 1: Neutral, 2: Positive)')
         ax.set_ylabel('Frequency')
 
-        ax.set_xticks(np.arange(0,3,1))
+        ax.set_xticks(np.arange(0, 3, 1))
         ax.set_xticklabels(mapping.keys(), rotation='vertical', fontsize=18)
 
         # Modify legend
