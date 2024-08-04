@@ -26,6 +26,18 @@ pip install -e .
 pip install ipykernel
 python -m ipykernel install --user --name churninator --display-name churninator
 ```
+#### Data:
+```
+Since the data used to develop the code is not my own, it is not publicly stored in the repo. Please save the data in the `data` direcotry and run
+the preprocessing script. This is in the `scripts` directory.
+```
+```Example:
+`python run_data_cleaner.py \
+    --path_to_data '../data/Assignment_churn_prediction.xlsx' \
+    --labels_to_encode Gender Country \
+    --save_file_path '../data/clean_data.csv' \
+    --verbose True \
+    --make_plots False`
 
 
 #### Tutorials:
