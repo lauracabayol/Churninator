@@ -6,3 +6,5 @@ Churninator.egg-info/
 .ipynb_checkpoints/
 .DS_Store
 docs/build/
+data/Assignment_churn_prediction.xlsx
+data/clean_data.csv
