@@ -17,5 +17,5 @@ jobs:
       uses: dante-ev/latex-action@latest
       with:
         root_file: report.tex  # Replace with your main .tex file
-        working_directory: /report
+        working_directory: ../../report
 
