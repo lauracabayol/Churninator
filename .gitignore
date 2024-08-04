@@ -1,0 +1,7 @@
+notebooks/.ipynb_checkpoints/
+notebooks/*.ipynb
+Churninator.egg-info/
+*/__pycache__/
+*/*/__pycache__/
+.ipynb_checkpoints/
+.DS_Store
