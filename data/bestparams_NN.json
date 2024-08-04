@@ -1,0 +1,1 @@
+{"hidden_dim": 24, "nhidden": 3, "learning_rate": 0.006900000000000001, "batch_size": 40, "num_epochs": 30, "gamma": 0.05, "optimizer": "Adam"}
