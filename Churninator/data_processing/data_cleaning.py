@@ -1,8 +1,8 @@
 """
-data_cleaning Module
+DataCleaner Module
 ====================
 
-This module contains the data_cleaner class for cleaning customer data and performing churn prediction analysis.
+This module contains the DataCleaner class for cleaning customer data and performing churn prediction analysis.
 """
 
 import numpy as np
@@ -15,7 +15,7 @@ from sklearn.preprocessing import LabelEncoder
 from transformers import BertTokenizer, BertForSequenceClassification
 from transformers import pipeline
 
-class data_cleaner():
+class DataCleaner():
     """
     A class for cleaning customer data and performing churn prediction analysis.
     """
@@ -23,8 +23,7 @@ class data_cleaner():
     def __init__(self, path_to_data, 
                  labels_to_encode=['Gender', 'Country'], 
                  save_file_path=None, 
-                 verbose=False,
-                 make_plots=False):
+                 verbose=False):
         """
         Initializes the data cleaner with the specified parameters.
 
@@ -81,9 +80,6 @@ class data_cleaner():
         
         self.df_non_string = df_non_string
 
-        if make_plots:
-            self.plot_correlation2exit()
-            self.histogram_by_exited()
 
     def _label_encoding(self, label, return_mapping=False):
         """
@@ -115,74 +111,4 @@ class data_cleaner():
         result = self.sentiment_pipeline(text)
         return result[0]['label'], result[0]['score']
 
-    def plot_correlation_matrix(self, columns):
-        """
-        Plots the correlation matrix for the specified columns in the DataFrame.
 
-        Parameters:
-        columns (list): List of column names to include in the correlation matrix.
-        """
-        if self.verbose:
-            print("Plotting correlation matrix for columns:", columns)
-        
-        # Select the specified columns
-        df_selected = self.df_non_string[columns]
-        
-        # Calculate the correlation matrix
-        corr_matrix = df_selected.corr()
-        
-        # Create a heatmap of the correlation matrix
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', center=0, linewidths=0.5, linecolor='black')
-        plt.title('Correlation Matrix')
-        plt.show()
-
-    def plot_correlation2exit(self):
-        """
-        Plots the correlation of features with the target variable 'Exited'.
-        """
-        if self.verbose:
-            print("Plotting correlation with exit status")
-        
-        # Calculate correlations with the target variable
-        correlations = self.df_non_string.corr()['Exited'].drop('Exited')
-        
-        # Plot the correlations
-        plt.figure(figsize=(10, 6))
-        sns.barplot(x=correlations.index, y=correlations.values, palette='coolwarm')
-        plt.title('Correlation with Exit')
-        plt.xlabel('Feature')
-        plt.ylabel('Correlation')
-        plt.xticks(rotation=45)
-        plt.show()
-
-    def histogram_by_exited(self):
-        """
-        Plots a histogram of sentiment distribution by exit status.
-        """
-        if self.verbose:
-            print("Plotting histogram of sentiment distribution by exit status")
-
-        # Get mapping of encoded sentiments
-        mapping = self._label_encoding('sentiments', return_mapping=True)
-        mapping = dict(sorted(mapping.items(), key=lambda item: item[1]))
-        
-        # Create the histogram plot
-        fig, ax = plt.subplots(1, 1) 
-        sns.histplot(self.df_non_string, x='encoded_sentiments', hue='Exited', kde=True, palette='coolwarm', multiple='stack')
-
-        # Set plot title and labels
-        ax.set_title('Feedback Distribution by Exit Status')
-        ax.set_xlabel('Feedback (0: Negative, 1: Neutral, 2: Positive)')
-        ax.set_ylabel('Frequency')
-
-        ax.set_xticks(np.arange(0, 3, 1))
-        ax.set_xticklabels(mapping.keys(), rotation='vertical', fontsize=18)
-
-        # Modify legend
-        handles, labels = plt.gca().get_legend_handles_labels()
-        labels = ['Exited', 'Not Exited']
-        ax.legend(handles, labels)
-
-        # Show plot
-        plt.show()
