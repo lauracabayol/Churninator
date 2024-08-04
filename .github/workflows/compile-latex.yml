@@ -19,7 +19,7 @@ jobs:
         root_file: report.tex  # Replace with your main .tex file
         working_directory: report
     - name: Upload compiled PDF
-      uses: actions/upload-artifact@latest
+      uses: actions/upload-artifact@v2
       with:
         name: compiled-document
         path: report/report.pdf  
