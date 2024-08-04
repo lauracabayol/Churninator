@@ -30,6 +30,11 @@ python -m ipykernel install --user --name churninator --display-name churninator
 
 #### Tutorials:
 
-In the `Notebooks` folder, there are several tutorials one can run to learn how to use the code.
+In the `notebooks` folder, there are two tutorials, one for the Gradient boosting and the other for the neural network.
+These are .py scripts, in order to pair them to .ipynb, please run:
+
+```
+jupytext your_script --to ipynb
+```
 
 
