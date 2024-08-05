@@ -56,11 +56,6 @@ The performance of the models was evaluated using two primary metrics:
 \end{itemize}
 
 \subsection{Gradient Boosting Results}
-The Gradient Boosting model achieved an AUC of 0.91 (left panel on Fig.\ref{fig:roc_curve_gb}). The confusion matrix (right panel on Fig.\ref{fig:roc_curve_gb}) indicated the following performance:
-\begin{itemize}
-    \item \textbf{True Negatives:} 95\% of the customers who did not leave the service were correctly predicted.
-    \item \textbf{True Positives:} 70\% of the customers who left the service were correctly predicted.
-\end{itemize}
 
 \begin{figure}[h!]
     \centering
@@ -70,14 +65,13 @@ The Gradient Boosting model achieved an AUC of 0.91 (left panel on Fig.\ref{fig:
     \label{fig:roc_curve_gb}
 \end{figure}
 
+The Gradient Boosting model achieved an AUC of 0.91 (left panel on Fig.\ref{fig:roc_curve_gb}). The confusion matrix (right panel on Fig.\ref{fig:roc_curve_gb}) indicated the following performance:
+\begin{itemize}
+    \item \textbf{True Negatives:} 95\% of the customers who did not leave the service were correctly predicted.
+    \item \textbf{True Positives:} 70\% of the customers who left the service were correctly predicted.
+\end{itemize}
 
 \subsection{Neural Network Results}
-The Neural Network model yielded similar results, though slightly worse:
-\begin{itemize}
-    \item \textbf{AUC:} Approximately 0.86 (left panel on Fig.\ref{fig:roc_curve_nn}).
-    \item \textbf{True Negatives:} 90\% of the customers who did not leave the service were correctly predicted (right panel on Fig.\ref{fig:roc_curve_nn})
-    \item \textbf{True Positives:} 65\% of the customers who left the service were correctly predicted.
-\end{itemize}
 
 \begin{figure}[h!]
     \centering
@@ -86,6 +80,13 @@ The Neural Network model yielded similar results, though slightly worse:
     \caption{ROC Curve for Neural Network}
     \label{fig:roc_curve_nn}
 \end{figure}
+
+The Neural Network model yielded similar results, though slightly worse:
+\begin{itemize}
+    \item \textbf{AUC:} Approximately 0.86 (left panel on Fig.\ref{fig:roc_curve_nn}).
+    \item \textbf{True Negatives:} 90\% of the customers who did not leave the service were correctly predicted (right panel on Fig.\ref{fig:roc_curve_nn})
+    \item \textbf{True Positives:} 65\% of the customers who left the service were correctly predicted.
+\end{itemize}
 
 The slightly lower performance of the Neural Network could be attributed to its sensitivity to dummy variables and the need for data normalization. Although normalization was performed, further optimization might improve results.
 
