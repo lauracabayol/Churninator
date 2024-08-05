@@ -18,7 +18,8 @@ setup(
     install_requires=['scikit-learn',
                       'torch',
                       'numpy', 
-		      'pandas',
+        		      'pandas',
+                      'openpyxl',
                       'matplotlib',
                       'torch',
                       'imblearn',
@@ -26,6 +27,7 @@ setup(
                       'transformers',
                       'optuna',
                       'ipykernel',
+                      'jupyter',
                       'jupytext'],
 
     long_description=read('README.md'),
