@@ -1,10 +1,10 @@
-Churninator.ml\_predictor package
+Churninator.ml_predictor package
 =================================
 
 Submodules
 ----------
 
-Churninator.ml\_predictor.churninator module
+Churninator.ml_predictor.churninator module
 --------------------------------------------
 
 .. automodule:: Churninator.ml_predictor.churninator
@@ -12,7 +12,7 @@ Churninator.ml\_predictor.churninator module
    :undoc-members:
    :show-inheritance:
 
-Churninator.ml\_predictor.network\_architecture module
+Churninator.ml_predictor.network_architecture module
 ------------------------------------------------------
 
 .. automodule:: Churninator.ml_predictor.network_architecture

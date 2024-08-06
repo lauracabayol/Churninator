@@ -8,8 +8,8 @@ Welcome to Churninator's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   data_cleaner
-   churninator
+   data_cleaning
+   Churninator
    network_architecture
 
 Indices and tables

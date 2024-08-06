@@ -4,7 +4,7 @@ Churninator.utils package
 Submodules
 ----------
 
-Churninator.utils.optuna\_optimizers module
+Churninator.utils.optuna_optimizers module
 -------------------------------------------
 
 .. automodule:: Churninator.utils.optuna_optimizers
