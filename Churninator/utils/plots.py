@@ -8,6 +8,12 @@ This module contains a function to plot feature importances using seaborn.
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.rc('xtick', labelsize=12) 
+matplotlib.rc('ytick', labelsize=12)
+plt.rcParams['axes.labelsize'] = 14
+plt.rcParams["font.family"] = "serif"
 
 def plot_feature_importances_seaborn(feature_importance_dict):
     """
@@ -57,11 +63,14 @@ def plot_correlation2exit(df):
     Plots the correlation of features with the target variable 'Exited'.
     """
 
+    features2use = ['CreditScore', 'Age', 'Tenure', 'Balance (EUR)', 'NumberOfProducts', 'IsActiveMember','EstimatedSalary', 'encoded_Country','encoded_sentiments','score','Exited']
+    dfplot = df[features2use]
+
     # Calculate correlations with the target variable
-    correlations = df.corr()['Exited'].drop('Exited')
+    correlations = dfplot.corr()['Exited'].drop('Exited')
     
     # Plot the correlations
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(8, 4))
     sns.barplot(x=correlations.index, y=correlations.values, palette='coolwarm')
     plt.title('Correlation with Exit')
     plt.xlabel('Feature')
