@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main  # Change to the branch you want to trigger the workflow
-
+    paths:
+      - 'report/report.tex'  # Only trigger workflow when this file is modified
 jobs:
   compile:
     runs-on: ubuntu-latest
