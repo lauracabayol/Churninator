@@ -7,6 +7,7 @@ Welcome to Churninator's documentation!
 
    installation
    churninator
+   data_cleaning
 
 Indices and tables
 ==================
