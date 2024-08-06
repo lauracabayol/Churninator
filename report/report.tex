@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 % ref packages
 \usepackage{nameref}
-% folowing  must be in this order
+% following  must be in this order
 \usepackage{varioref}
 \usepackage{hyperref}
 \usepackage{cleveref}
@@ -21,34 +21,34 @@
 \begin{document}
 
 \section{Introduction}
-Churn prediction is a crucial task in customer relationship management, aiming to identify customers who are likely to discontinue using a service. Accurately predicting churn allows companies to take proactive measures to retain these customers. In this task, we address bank churn from costumers data using machine-learning techniques. 
+Churn prediction is a crucial task in customer relationship management, aiming to identify customers who are likely to discontinue using a service. Accurately predicting churn allows companies to take proactive measures to retain these customers. In this task, we address bank churn from customer data using machine-learning techniques. 
 
 \section{Data description and preprocessing}
-The dataset contains a total of 10,000 samples, where each sample represents a unique customer. Each sample contains both structured and unstructured data. The structured data includes features such as the number of products owned by the customer, their account balance, salary, age, gender, and other information. The dataset exhibits a significant class imbalance, which can affect the performance of machine-learning models. To illustrate the class imbalance, the left panel on Fig.\ref{fig:class_distribution} shows the distribution of costumers leaving (1) and not leaving (0) the service. 
+The dataset contains a total of 10,000 samples, where each sample represents a unique customer. Each sample contains both structured and unstructured data. The structured data includes features such as the number of products the customer owns, their account balance, salary, age, gender, and other information. The dataset exhibits a significant class imbalance, which can affect the performance of machine-learning models. To illustrate the class imbalance, the left panel on Fig.\ref{fig:class_distribution} shows the distribution of customers leaving (1) and not leaving (0) the service. 
 
 To prepare the data for analysis, we first encode the categorical features (gender and country) into numerical labels. The encoding process transforms each unique category into an integer label. This step is essential because classical machine-learning algorithms require numerical input. 
 
 The next steps involve handling the unstructured data and integrating it with the structured data. Customer feedback is a valuable source of unstructured data that provides insights into customer satisfaction and potential churn risk.  We perform sentiment analysis to classify the feedback as very positive, positive, neutral, negative, and very negative employing the \textsc{BERT} (Bidirectional Encoder Representations from Transformers) model. The first step is tokenization with the \texttt{BertTokenizer}. It is used to convert the text of each feedback into a format suitable for \textsc{BERT}. This involves breaking the text into tokens and mapping each token to an integer index in the \textsc{BERT} vocabulary. The tokenized text is then passed to the \texttt{BertForSequenceClassification module}. This module is fine-tuned to classify each piece of feedback into one of five categories, corresponding to star ratings ranging from 1 star (the poorest score) to 5 stars (the best score).
 
-Once each feedback has been classified into a star rating, we encode these ratings into integer labels. We also include in the analysis a derived variable from the sentiment analysis that indicates how certain \textsc{BERT} is in the classification of costumer's feedback. This variable can help mitigate the impact of errors from \textsc{BERT}'s predictions.
+Once each feedback has been classified into a star rating, we encode these ratings into integer labels. We also include a derived variable from the sentiment analysis that indicates how certain \textsc{BERT} is in classifying the customer's feedback. This variable can help mitigate the impact of errors from \textsc{BERT}'s predictions.
 
-Once the data is all preprocessed, with a format that algorithms can read, we can look at the correlation between different variables and the probability of customer churn. The right panel on Fig.~\ref{fig:class_distribution} shows the correlation between all features in the dataset and their current status (Exited/not Exited). It clearly indicates that customer feedback is an important feature in predicting churn. However, we also found instances where customers gave excellent ratings accordiant to \textsc{BERT} (5 stars) but still left the service. Manual verification confirmed the high ratings, suggesting that despite positive feedback, these customers decided to churn. Conversely, some customers gave poor ratings (1 or 2 stars) but did not leave the service. These findings highlight the complexity of human behavior. While customer feedback is a relevant feature, it is not an infallible predictor of churn. Unexpectedly, the second most correlated feature with churn is age. 
+Once the data is all preprocessed, with a format that algorithms can read, we can look at the correlation between different variables and the probability of customer churn. The right panel on Fig.~\ref{fig:class_distribution} shows the correlation between all features in the dataset and their current status (Exited/not Exited). It indicates that customer feedback is an important feature in predicting churn. However, we also found instances where customers gave excellent ratings according to \textsc{BERT} (5 stars) but still left the service. Manual verification confirmed the high ratings, suggesting that despite positive feedback, these customers decided to churn. Conversely, some customers gave poor ratings (1 or 2 stars) but did not leave the service. These findings highlight the complexity of human behavior. While customer feedback is a relevant feature, it is not an infallible predictor of churn. Unexpectedly, the second most correlated feature with churn is age. 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.45\textwidth]{figures/class_distribution.png}
     \includegraphics[width=0.45\textwidth]{figures/correlation_matrix.png}
-    \caption{\emph{Left:} Class distribution of the dataset (O:Non exited, 1:Exited). \emph{Right:} Correlation between the features in the dataset and the exited outcome}
+    \caption{\emph{Left:} Class distribution of the dataset (O: Non exited, 1:Exited). \emph{Right:} Correlation between the features in the dataset and the exited outcome}
     \label{fig:class_distribution}
 \end{figure}
 
 \section{Main results}
-To address the churn prediction task, we employed two machine learning approaches: Gradient Boosting and a Neural Network. Other algorithms were also tested, but Gradient Boosting provided the best results. Both algorithms were optimized using \texttt{Optuna}, a hyperparameter optimization framework. \texttt{Optuna} allows for efficient exploration of the hyperparameter space to find the best performing settings for each model.
+To address the churn prediction task, we employed two machine learning approaches: Gradient Boosting and a Neural Network. Other algorithms were also tested, but Gradient Boosting provided the best results. Both algorithms were optimized using \texttt{Optuna}, a hyperparameter optimization framework. \texttt{Optuna} allows for efficient exploration of the hyperparameter space to find the best-performing settings for each model.
 
 The performance of the models was evaluated using two primary metrics:
 \begin{itemize}
     \item \textbf{ROC Curve:} The Receiver Operating Characteristic (ROC) curve is a graphical representation of the true positive rate (sensitivity) versus the false positive rate (1-specificity) at various threshold settings. The area under the ROC curve (AUC) provides a single metric to evaluate the overall performance of the model, with higher values indicating better performance.
-    \item \textbf{Confusion Matrix:} The confusion matrix provides a detailed breakdown of a model's performance by displaying the counts of true positives, true negatives, false positives, and false negatives. This matrix evaluates how well the model performs on each individual class. In the context of imbalanced datasets, understanding these metrics becomes critical since model might achieve a high overall accuracy by predominantly predicting the majority class while neglecting the minority class. 
+    \item \textbf{Confusion Matrix:} The confusion matrix provides a detailed breakdown of a model's performance by displaying the counts of true positives, true negatives, false positives, and false negatives. This matrix evaluates how well the model performs on each class. In the context of imbalanced datasets, understanding these metrics becomes critical since the model might achieve high overall accuracy by predominantly predicting the majority class while neglecting the minority class. 
 \end{itemize}
 
 \subsection{Gradient Boosting results}
