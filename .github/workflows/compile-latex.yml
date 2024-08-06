@@ -1,0 +1,25 @@
+name: Compile LaTeX Document
+
+on:
+  push:
+    branches:
+      - report  # Change to the branch you want to trigger the workflow
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Churninator
+      uses: actions/checkout@v4
+
+    - name: Compile LaTeX document
+      uses: dante-ev/latex-action@latest
+      with:
+        root_file: report.tex  # Replace with your main .tex file
+        working_directory: report
+    - name: Upload compiled PDF
+      uses: actions/upload-artifact@v4
+      with:
+        name: PDF
+        path: report/report.pdf  

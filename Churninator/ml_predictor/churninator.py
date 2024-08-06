@@ -9,6 +9,10 @@ import numpy as np
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "serif"
+import matplotlib 
+matplotlib.rc('xtick', labelsize=12) 
+matplotlib.rc('ytick', labelsize=12)
 import torch
 import json
 import os
@@ -256,8 +260,13 @@ class Churninator:
         cf = confusion_matrix(y_test.values.flatten(), y_pred_categorical, normalize='true')
 
         if plot:
-            disp = ConfusionMatrixDisplay(cf)
-            disp.plot()
+            disp= ConfusionMatrixDisplay.from_predictions(y_test.values.flatten(), 
+                                                          y_pred_categorical,
+                                                          display_labels=['Non Exited', 'Exited'],
+                                                          colorbar=False,
+                                                          normalize='true')
+            #disp = ConfusionMatrixDisplay(cf, display_labels=['Non Exited', 'Exited'], colorbar=True)
+            #disp.plot()
             plt.show()
 
         return cf

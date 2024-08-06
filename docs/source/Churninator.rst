@@ -1,4 +1,4 @@
-Churninator package
+Churninator module
 ===================
 
 Subpackages

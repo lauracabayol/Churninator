@@ -20,7 +20,8 @@ class DataCleaner():
     A class for cleaning customer data and performing churn prediction analysis.
     """
 
-    def __init__(self, path_to_data, 
+    def __init__(self,
+                 path_to_data, 
                  labels_to_encode=['Gender', 'Country'], 
                  save_file_path=None, 
                  verbose=False):
@@ -32,7 +33,6 @@ class DataCleaner():
         labels_to_encode (list): List of labels to encode. Default is ['Gender', 'Country'].
         save_file_path (str): Path to save the cleaned data as a CSV file. Default is None.
         verbose (bool): If True, prints detailed logs. Default is False.
-        make_plots (bool): If True, generates plots. Default is False.
         """
         self.verbose = verbose
 
