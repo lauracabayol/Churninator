@@ -1,11 +1,11 @@
 Welcome to Churninator's documentation!
-================================
+========================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-    Churninator
+    installation
 
 Indices and tables
 ==================
