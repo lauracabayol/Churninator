@@ -46,7 +46,7 @@ class ChurnNet(nn.Module):
         
         # Initialize the bias term for the output layer and fix it
         initial_bias = torch.tensor([0.2 / 0.8]).log()  # Set the initial bias
-        self.output_layer.bias = nn.Parameter(initial_bias, requires_grad=True)  # Fix the bias
+        self.output_layer.bias = nn.Parameter(initial_bias, requires_grad=True)  
 
     def forward(self, x):
         """
