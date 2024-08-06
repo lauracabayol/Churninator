@@ -40,17 +40,9 @@ from Churninator.utils.plots import plot_feature_importances_seaborn
 
 from Churninator.data_processing.data_cleaning import DataCleaner
 from Churninator.ml_predictor.network_architecture import ChurnNet
-
-torch.manual_seed(0)
-np.random.seed(0)
-random.seed(0)
-os.environ['PYTHONHASHSEED'] = '0'
-
 # Ensure deterministic behavior
 torch.use_deterministic_algorithms(True)
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = False
-torch.backends.cudnn.enabled = False
+
 
 class Churninator:
     """
@@ -96,6 +88,12 @@ class Churninator:
         self.algorithm = algorithm
         self.oversample = oversample
         self.undersample = undersample
+        self.seed=32
+
+        torch.manual_seed(self.seed)
+        np.random.seed(self.seed)
+        random.seed(self.seed)
+        os.environ['PYTHONHASHSEED'] = f'{self.seed}'
 
         if preprocess_file:
             print("Preprocessing file, this can take ~5', but it only needs to be done once")
@@ -104,9 +102,12 @@ class Churninator:
                                        save_file_path=self.root_repo+'/data/clean_data.csv',
                                        verbose=True,
                                        make_plots=False)
+            df = pd.read_csv(self.root_repo+'/data/clean_data.csv', header=0, sep=',')
         else:
             df = pd.read_csv(path_to_file, header=0, sep=',')
+            df = df.sample(frac=1, random_state=self.seed)
 
+        
         X, y = df[features2use], df['Exited']
 
         if self.algorithm == 'NN':
@@ -142,7 +143,7 @@ class Churninator:
                     raise AttributeError("Accepted algorithm options are 'GB' and 'NN'")
 
         if self.algorithm == 'GB':
-            self.gb_optimized = GradientBoostingClassifier(**best_params, random_state=42)
+            self.gb_optimized = GradientBoostingClassifier(**best_params, random_state=self.seed)
             self.gb_optimized.fit(self.X_train.values, self.y_train.values.flatten())
         elif self.algorithm == 'NN':
             self.nn_optimized = ChurnNet(input_dim=len(features2use),
@@ -163,20 +164,20 @@ class Churninator:
             X (pd.DataFrame or np.ndarray): Feature data.
             y (pd.Series or np.ndarray): Target labels.
         """
-        self.X_train, X_val, self.y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-        self.X_test, self.X_val, self.y_test, self.y_val = train_test_split(X_val, y_val, test_size=0.5, random_state=42, stratify=y_val)
+        self.X_train, X_val, self.y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=self.seed, stratify=y)
+        self.X_test, self.X_val, self.y_test, self.y_val = train_test_split(X_val, y_val, test_size=0.5, random_state=self.seed, stratify=y_val)
 
         if self.oversample and self.undersample:
             raise AttributeError("Select either oversample or undersample")
         elif self.oversample:
             if self.verbose:
                 print("Oversampling training data")
-            oversampler = RandomOverSampler(random_state=42)
+            oversampler = RandomOverSampler(random_state=self.seed)
             self.X_train, self.y_train = oversampler.fit_resample(self.X_train, self.y_train)
         elif self.undersample:
             if self.verbose:
                 print("Undersampling training data")
-            undersampler = RandomUnderSampler(random_state=42)
+            undersampler = RandomUnderSampler(random_state=self.seed)
             self.X_train, self.y_train = undersampler.fit_resample(self.X_train, self.y_train)
 
     def get_validation_data(self):
@@ -300,7 +301,7 @@ class Churninator:
             dict: Dictionary containing training and validation DataLoader objects.
         """
         g = torch.Generator()
-        g.manual_seed(0)
+        g.manual_seed(self.seed)
 
         train_dataset = TensorDataset(torch.tensor(self.X_train, dtype=torch.float32),
                                       torch.tensor(self.y_train.values.flatten(), dtype=torch.float32).unsqueeze(1))
