@@ -6,6 +6,7 @@ Welcome to Churninator's documentation!
    :caption: Contents:
 
    installation
+   churninator
 
 Indices and tables
 ==================
