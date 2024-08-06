@@ -39,7 +39,7 @@ To install Churninator, these are the recommended steps:
 3. Since the data used to develop the code is not my own, it is not publicly stored in the repo. Please save the data in the `data` direcotry and run the preprocessing script. This is in the `scripts` directory. This will create a new csv data file with the preprocessed data. It might take ~5', butit only requires running once.
    .. code-block:: bash
 
-    python preprocessing_data.py \
+      python preprocessing_data.py \
         --path_to_data '../../data/Assignment_churn_prediction.xlsx' \
         --labels_to_encode Gender Country \
         --save_file_path '../../data/clean_data.csv' \
