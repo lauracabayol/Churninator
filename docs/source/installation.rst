@@ -7,16 +7,16 @@ To install Churninator, these are the recommended steps:
 
    .. code-block:: bash
 
-    conda create -n churninator -c conda-forge python=3.11 pip=24.0
-    conda activate churninator
+      conda create -n churninator -c conda-forge python=3.11 pip=24.0
+      conda activate churninator
 
 2. Clone the repo into your machine and perform an editable installation:
 
    .. code-block:: bash
 
-    git clone https://github.com/lauracabayol/Churninator.git 
-    cd Churninator
-    pip install -e .
+      git clone https://github.com/lauracabayol/Churninator.git 
+      cd Churninator
+      pip install -e .
 
 
    If you want to use notebooks via JupyterHub, you'll also need to download ipykernel:
