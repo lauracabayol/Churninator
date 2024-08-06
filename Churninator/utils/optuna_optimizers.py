@@ -135,12 +135,11 @@ def optimize_nn_with_optuna(train_function, n_trials=100):
     def objective(trial):
         # Define the hyperparameters to tune
         input_dim = 10
-        hidden_dim = trial.suggest_int('hidden_dim', low=16, high = 128, step = 8)
+        hidden_dim = trial.suggest_int('hidden_dim', low=16, high = 48, step = 8)
         nhidden = trial.suggest_int('nhidden', low=1, high = 5, step = 1)
-        learning_rate = trial.suggest_float('learning_rate', low=1e-4, high = 1e-2, step = 1e-4)
-        batch_size = trial.suggest_int('batch_size', low=16, high = 128, step = 8)
-        num_epochs = trial.suggest_int('num_epochs', low=20, high = 100,step = 10)
-        gamma = trial.suggest_float('gamma', low=0, high = 0.1, step = 0.01)
+        learning_rate = trial.suggest_float('learning_rate', low=1e-4, high = 1e-3, step = 1e-4)
+        batch_size = trial.suggest_int('batch_size', low=64, high = 128, step = 8)
+        num_epochs = trial.suggest_int('num_epochs', low=100, high = 500,step = 50)
 
         optimizer_name = trial.suggest_categorical('optimizer', ['Adam', 'wAdam', 'Adamax'])
         
@@ -154,8 +153,6 @@ def optimize_nn_with_optuna(train_function, n_trials=100):
             optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
         elif optimizer_name == 'Adamax':
             optimizer = optim.Adamax(model.parameters(), lr=learning_rate)
-
-        scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=gamma)
             
         # Train the model
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
