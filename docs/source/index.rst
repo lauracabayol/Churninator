@@ -5,7 +5,7 @@ Welcome to Churninator's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-    installation
+   installation
 
 Indices and tables
 ==================
