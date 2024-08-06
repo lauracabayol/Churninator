@@ -24,7 +24,3 @@ jobs:
         name: PDF
         path: report/report.pdf 
 
-    - name: Extract PDF
-      run: |
-        mkdir -p report
-        unzip -j PDF.zip "*.pdf" -d report 
