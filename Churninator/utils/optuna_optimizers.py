@@ -120,7 +120,7 @@ def optimize_gb_with_optuna(X, y, n_trials=100):
     return best_params
 
 
-def optimize_nn_with_optuna(train_function, n_trials=100):
+def optimize_nn_with_optuna(train_function, input_dim, n_trials=100):
     """
     Optimize neural network hyperparameters using Optuna based on ROC AUC score.
     
@@ -134,7 +134,6 @@ def optimize_nn_with_optuna(train_function, n_trials=100):
     """
     def objective(trial):
         # Define the hyperparameters to tune
-        input_dim = 10
         hidden_dim = trial.suggest_int('hidden_dim', low=16, high = 48, step = 8)
         nhidden = trial.suggest_int('nhidden', low=1, high = 5, step = 1)
         learning_rate = trial.suggest_float('learning_rate', low=1e-4, high = 1e-3, step = 1e-4)
