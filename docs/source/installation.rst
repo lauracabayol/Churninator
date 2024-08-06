@@ -1,33 +1,21 @@
 Installation
 ============
 
-To install LaCe, these are the recommended steps:
+To install Churninator, these are the recommended steps:
 
-1. Create a new conda environment and activate it. It is usually better to follow a Python version one or two behind the latest. In January 2024, the latest is 3.12, so we recommend 3.11.
+1. Create a new conda environment and activate it. It is usually better to follow a Python version one or two behind the latest. In August 2024, the latest is 3.12, so we recommend 3.11.
 
    .. code-block:: bash
 
-      conda create -n lace -c conda-forge python=3.11 camb fdasrsf pip=24.0
-      conda activate lace
+      conda create -n churninator -c conda-forge python=3.11 pip=24.0
+      conda activate churninator
 
 2. Clone the repo into your machine and perform an editable installation:
 
    .. code-block:: bash
 
-      git clone https://github.com/igmhub/LaCE.git
-      cd LaCE
-      pip install -e .[explicit]
-
-   If you want to use the GP emulator please run:
-
-   .. code-block:: bash
-
-      pip install -e .[gpy]
-
-   If you want to use other versions of the packages you can install LaCE using:
-
-   .. code-block:: bash
-
+      git clone https://github.com/lauracabayol/Churninator.git 
+      cd Churninator
       pip install -e .
 
    If you want to use notebooks via JupyterHub, you'll also need to download ipykernel:
@@ -35,7 +23,7 @@ To install LaCe, these are the recommended steps:
    .. code-block:: bash
 
       pip install ipykernel
-      python -m ipykernel install --user --name lace --display-name lace
+      python -m ipykernel install --user --name churninator --display-name churninator
 
    Furthermore, the LaCE repo uses jupytext to handle notebooks and version control. To run the notebooks provided in the repo:
 
@@ -47,24 +35,9 @@ To install LaCe, these are the recommended steps:
 
       jupytext your_script.py --to ipynb
 
-3. The Nyx data is not publicly available. The Nyx data is located at NERSC in:
-
+3. Since the data used to develop the code is not my own, it is not publicly stored in the repo. Please save the data in the `data` direcotry and run the preprocessing script. This is in the `scripts` directory. This will create a new csv data file with the preprocessed data. It might take ~5', butit only requires running once.
    .. code-block:: bash
 
-      NYX_PATH="/global/cfs/cdirs/desi/science/lya/y1-p1d/likelihood_files/nyx_files/"
+      python preprocessing_data.py --path_to_data '../../data/Assignment_churn_prediction.xlsx' --labels_to_encode Gender Country --save_file_path '../../data/clean_data.csv' --verbose True 
 
-   Nyx users without access to NERSC or running the code elsewhere need to add the Nyx path as an environment variable in the notebook kernel. This is done by writing in the kernel.json file:
 
-   .. code-block:: json
-
-      "env": {
-         "NYX_PATH":"path_to_Nyx"
-      }
-
-4. To improve the reading time, you can precompute all cosmological information needed using CAMB. This is done by running the script:
-
-   .. code-block:: bash
-
-      python scripts/compute_nyx_emu_cosmo.py
-
-   Note that you may need to update it as explained inside the file.
