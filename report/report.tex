@@ -47,8 +47,8 @@ To address the churn prediction task, we employed two machine learning approache
 
 The performance of the models was evaluated using two primary metrics:
 \begin{itemize}
-    \item \textbf{ROC Curve:} The Receiver Operating Characteristic (ROC) curve is a graphical representation of the true positive rate (sensitivity) versus the false positive rate (1-specificity) at various threshold settings. The area under the ROC curve (AUC) provides a single metric to evaluate the overall performance of the model, with higher values indicating better performance.
-    \item \textbf{Confusion Matrix:} The confusion matrix provides a detailed breakdown of a model's performance by displaying the counts of true positives, true negatives, false positives, and false negatives. This matrix evaluates how well the model performs on each class. In the context of imbalanced datasets, understanding these metrics becomes critical since the model might achieve high overall accuracy by predominantly predicting the majority class while neglecting the minority class. 
+    \item[·] \textbf{ROC Curve:} The Receiver Operating Characteristic (ROC) curve is a graphical representation of the true positive rate (sensitivity) versus the false positive rate (1-specificity) at various threshold settings. The area under the ROC curve (AUC) provides a single metric to evaluate the overall performance of the model, with higher values indicating better performance.
+    \item[·] \textbf{Confusion Matrix:} The confusion matrix provides a detailed breakdown of a model's performance by displaying the counts of true positives, true negatives, false positives, and false negatives. This matrix evaluates how well the model performs on each class. In the context of imbalanced datasets, understanding these metrics becomes critical since the model might achieve high overall accuracy by predominantly predicting the majority class while neglecting the minority class. 
 \end{itemize}
 
 \subsection{Gradient Boosting results}
@@ -63,8 +63,8 @@ The performance of the models was evaluated using two primary metrics:
 
 The Gradient Boosting model achieved an AUC of 0.91 (left panel on Fig.\ref{fig:roc_curve_gb}). The confusion matrix (right panel on Fig.\ref{fig:roc_curve_gb}) indicated the following performance:
 \begin{itemize}
-    \item \textbf{True Negatives:} 95\% of the customers who did not leave the service were correctly predicted.
-    \item \textbf{True Positives:} 70\% of the customers who left the service were correctly predicted.
+    \item[·] \textbf{True Negatives:} 95\% of the customers who did not leave the service were correctly predicted.
+    \item[·] \textbf{True Positives:} 70\% of the customers who left the service were correctly predicted.
 \end{itemize}
 
 \subsection{Neural Network results}
@@ -79,9 +79,9 @@ The Gradient Boosting model achieved an AUC of 0.91 (left panel on Fig.\ref{fig:
 
 On the other hand, the Neural Network model yielded slightly worse results:
 \begin{itemize}
-    \item \textbf{AUC:} Approximately 0.86 (left panel on Fig.\ref{fig:roc_curve_nn}).
-    \item \textbf{True Negatives:} 90\% of the customers who did not leave the service were correctly predicted (right panel on Fig.\ref{fig:roc_curve_nn})
-    \item \textbf{True Positives:} 70\% of the customers who left the service were correctly predicted.
+    \item[·] \textbf{AUC:} Approximately 0.86 (left panel on Fig.\ref{fig:roc_curve_nn}).
+    \item[·] \textbf{True Negatives:} 90\% of the customers who did not leave the service were correctly predicted (right panel on Fig.\ref{fig:roc_curve_nn})
+    \item[·] \textbf{True Positives:} 70\% of the customers who left the service were correctly predicted.
 \end{itemize}
 
 The slightly lower performance of the Neural Network could be attributed to its sensitivity to dummy variables and the need for data normalization. Although normalization was performed, further optimization might improve results.
@@ -94,8 +94,8 @@ Another factor contributing to the imperfection is the class imbalance in the da
 
 To enhance the accuracy and robustness of churn prediction, several avenues for future work are suggested:
 \begin{itemize}
-    \item \textbf{Ensemble Methods:} Exploring ensemble methods that combine predictions from multiple models could potentially improve performance (bagging, boosting, and stacking).
-    \item \textbf{Advanced Imbalance Handling:} Further investigation into advanced techniques for handling imbalanced data is warranted. This could include advanced cost-sensitive learning approaches.
+    \item[·] \textbf{Ensemble Methods:} Exploring ensemble methods that combine predictions from multiple models could potentially improve performance (bagging, boosting, and stacking).
+    \item[·] \textbf{Advanced Imbalance Handling:} Further investigation into advanced techniques for handling imbalanced data is warranted. This could include advanced cost-sensitive learning approaches.
 \end{itemize}
 
 \end{document}
