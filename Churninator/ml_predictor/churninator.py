@@ -88,6 +88,7 @@ class Churninator:
         self.algorithm = algorithm
         self.oversample = oversample
         self.undersample = undersample
+        self.features2use=features2use
         self.seed=32
 
         torch.manual_seed(self.seed)
@@ -136,7 +137,9 @@ class Churninator:
                 elif self.algorithm == 'NN':
                     if verbose:
                         print("Optimizing NN parameters with Optuna")
-                    best_params = optimize_nn_with_optuna(self._train_nn, n_trials=40)
+                    best_params = optimize_nn_with_optuna(train_function=self._train_nn, 
+                                                          input_dim = len(self.features2use), 
+                                                          n_trials=40)
                     with open(self.root_repo+'/data/bestparams_NN.json', 'w') as fp:
                         json.dump(best_params, fp)
                 else:
