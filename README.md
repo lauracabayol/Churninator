@@ -1,6 +1,6 @@
 # Churninator
 
-Churninator is a python module to make churn prediction with Gradient boosting and/or neural networks
+Churninator is a python module to make churn prediction with Gradient boosting and/or neural networks. The complete documentation is available [here]( https://churninator.readthedocs.io/en/latest/index.html).
 
 ## Installation
 (Last update Aug 4 2024)
